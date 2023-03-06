@@ -1,0 +1,12 @@
+def Modulo_algo(msg):
+    time = pd.to_datetime(msg["E"], unit = "ms")
+    price = float(msg["c"])
+    print("Time: {} | Price: {}".format(time, price))
+    
+    if int(price) % 10 == 0:
+        order = client.create_order(symbol = "BTCUSD", side = "BUY", type = "MARKET", quantity = 0.1)
+        print("\n" + 50 * "-")
+        print("Buy {} BTC for {} USD".format(order["executedQty"], order["cummulativeQuoteQty"]))
+        print(50 * "-" + "\n")
+        
+        twm.stop()
