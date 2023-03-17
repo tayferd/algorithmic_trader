@@ -1,0 +1,191 @@
+import tkinter as tk
+import requests
+
+# API endpoint
+api_url = 'https://api.binance.us/api/v3/ticker/price'
+
+# API key and secret
+api_key = 'your key'
+api_secret = 'your key'
+
+
+class CryptoPriceApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.title('ACH')
+        self.geometry('250x350')
+        self.config(padx=10, pady=10)
+
+        #self.configure(background='#2d2d2d')
+        self.update_button = tk.Button(self, text='Update', command=self.update_price)
+        self.update_button.grid(row=1, column=1)
+
+        self.strategy_button = tk.Button(self, text='signs', command=self.execute_strategy)
+        self.stragedy_button.grid(row=1, column=4)
+
+        self.sell_button = tk.Button(self, text='Sell', command=self.update_price)
+        self.sell_button.grid(row=1, column=2)
+
+        self.buy_button = tk.Button(self, text='Buy', command=self.place_trade)
+        self.buy_button.grid(row=1, column=3)
+
+        self.symbol_var = tk.StringVar(value='XRPUSD')  # default to XRP
+        self.price_var = tk.StringVar(value='')
+
+        self.symbol_label = tk.Label(self, text='Symbol:')
+        self.symbol_label.grid(row=2, column=1)
+
+        self.symbol_entry = tk.Entry(self, textvariable=self.symbol_var)
+        self.symbol_entry.grid(row=3, column=1)
+
+        self.price_label = tk.Label(self, textvariable=self.price_var)
+        self.price_label.grid(row=4, column=1)
+
+
+        self.symbol_var1 = tk.StringVar(value='SOLUSD')  # default to SOL
+        self.price_var1 = tk.StringVar(value='')
+
+        self.symbol_label1 = tk.Label(self, text='Symbol:')
+        self.symbol_label1.grid(row=5, column=1)
+
+        self.symbol_entry1 = tk.Entry(self, textvariable=self.symbol_var1)
+        self.symbol_entry1.grid(row=6, column=1)
+
+        self.price_label1 = tk.Label(self, textvariable=self.price_var1)
+        self.price_label1.grid(row=7, column=1)
+
+
+        self.symbol_var2 = tk.StringVar(value='BTCUSD')  # default to Ethereum
+        self.price_var2 = tk.StringVar(value='')
+
+        self.symbol_label2 = tk.Label(self, text='Symbol:')
+        self.symbol_label2.grid(row=8, column=1)
+
+        self.symbol_entry2 = tk.Entry(self, textvariable=self.symbol_var2)
+        self.symbol_entry2.grid(row=9, column=1)
+
+        self.price_label2 = tk.Label(self, textvariable=self.price_var2)
+        self.price_label2.grid(row=10, column=1)
+
+
+        self.symbol_var3 = tk.StringVar(value='ETHUSD')  # default to ETH
+        self.price_var3 = tk.StringVar(value='')
+
+        self.symbol_label3 = tk.Label(self, text='Symbol:')
+        self.symbol_label3.grid(row=11, column=1)
+
+        self.symbol_entry3 = tk.Entry(self, textvariable=self.symbol_var3)
+        self.symbol_entry3.grid(row=12, column=1)
+
+        self.price_label3 = tk.Label(self, textvariable=self.price_var3)
+        self.price_label3.grid(row=13, column=1)
+
+
+    def update_price(self):
+        symbol = self.symbol_var.get()
+        headers = {'X-MBX-APIKEY': api_key}
+        params = {'symbol': symbol}
+
+        # Send the API request
+        response = requests.get(api_url, headers=headers, params=params)
+
+        # Check the API response status
+        if response.status_code == requests.codes.ok:
+            # Parse the API response
+            data = response.json()
+            price = data['price']
+            round_price = float(price)
+            result = float(price) * 58786
+
+            self.price_var.set(f' {symbol[:-3]} is {round_price} USD \n {result} ')
+        else:
+            self.price_var.set('Failed to retrieve price data')
+
+
+        def update_price1(self):
+            symbol1 = self.symbol_var1.get()
+            headers = {'X-MBX-APIKEY': api_key}
+            params = {'symbol': symbol1}
+
+            # Send the API request
+            response = requests.get(api_url, headers=headers, params=params)
+
+            # Check the API response status
+            if response.status_code == requests.codes.ok:
+                # Parse the API response
+                data = response.json()
+                price = data['price']
+                result = float(price)
+
+                self.price_var1.set(f' {symbol1[:-3]} USD \n {result} ')
+            else:
+                self.price_var1.set('Failed to retrieve price data')
+
+
+        def update_price2(self):
+            symbol2 = self.symbol_var2.get()
+            headers = {'X-MBX-APIKEY': api_key}
+            params = {'symbol': symbol2}
+
+            # Send the API request
+            response = requests.get(api_url, headers=headers, params=params)
+
+            # Check the API response status
+            if response.status_code == requests.codes.ok:
+                # Parse the API response
+                data = response.json()
+                price = data['price']
+                result = float(price)
+
+                self.price_var2.set(f' {symbol2[:-3]} USD \n {result} ')
+            else:
+                self.price_var2.set('Failed to retrieve price data')
+
+
+        def update_price3(self):
+            symbol3 = self.symbol_var3.get()
+            headers = {'X-MBX-APIKEY': api_key}
+            params = {'symbol': symbol3}
+
+            # Send the API request
+            response = requests.get(api_url, headers=headers, params=params)
+
+            # Check the API response status
+            if response.status_code == requests.codes.ok:
+                # Parse the API response
+                data = response.json()
+                price = data['price']
+                result = float(price)
+
+                self.price_var3.set(f' {symbol3[:-3]} USD \n {result} ')
+            else:
+                self.price_var3.set('Failed to retrieve price data')
+        update_price1(self)
+        update_price2(self)
+        update_price3(self)
+        self.geometry('250x350')
+
+    def place_trade(symbol, side, type, quantity):
+        order = client.place_order(
+            symbol=symbol,
+            side=side,
+            type=type,
+            quantity=quantity
+        )
+        return order
+
+    def execute_strategy():
+        # Get the current price of a cryptocurrency
+        price = get_price("BTCUSDT")
+        print(price)
+
+        # Place a buy order if the price is below a certain threshold
+        if price < 10000:
+            order = place_trade("BTCUSDT", Client.SIDE_BUY, Client.ORDER_TYPE_MARKET, 1.0)
+            print(order)
+
+
+if __name__ == '__main__':
+    app = CryptoPriceApp()
+    app.mainloop()  # Add this line to keep the window open
