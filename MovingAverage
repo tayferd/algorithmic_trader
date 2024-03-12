@@ -1,0 +1,25 @@
+import numpy as np
+
+# This is a placeholder for where you would keep track of incoming price data
+prices = []
+
+def calculate_moving_average(window_size):
+    if len(prices) < window_size:
+        return None
+    return np.mean(prices[-window_size:])
+
+def on_message(ws, message):
+    message_data = json.loads(message)
+    price = float(message_data['p'])  # Assuming 'p' is the price field
+    prices.append(price)
+    
+    short_term_ma = calculate_moving_average(50)  # Short-term moving average
+    long_term_ma = calculate_moving_average(200)  # Long-term moving average
+    
+    if short_term_ma and long_term_ma:
+        if short_term_ma > long_term_ma:
+            print("Buy Signal")
+            # Place buy order logic here
+        elif short_term_ma < long_term_ma:
+            print("Sell Signal")
+            # Place sell order logic here
