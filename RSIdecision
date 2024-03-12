@@ -1,0 +1,19 @@
+def rsi_decision(rsi_series, in_position=False):
+    
+    # Ensure we have at least two data points to compare
+    if len(rsi_series) < 2:
+        return 'hold', in_position
+
+    # Latest RSI value
+    latest_rsi = rsi_series.iloc[-1]
+
+    if not in_position:
+        # Looking for a buy signal: RSI crossing above 30 from below
+        if latest_rsi > 30:
+            return 'buy', True  # Enter position
+    else:
+        # In position, looking for a sell signal: RSI crossing below 70 from above
+        if latest_rsi < 70:
+            return 'sell', False  # Exit position
+
+    return 'hold', in_position
