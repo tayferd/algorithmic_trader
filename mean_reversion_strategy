@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+
+def mean_reversion_strategy(prices, window=20, num_std_dev=2):
+    """
+    Mean reversion strategy based on Bollinger Bands.
+    
+    :param prices: Pandas Series of asset prices.
+    :param window: Window size for the moving average.
+    :param num_std_dev: Number of standard deviations for the Bollinger Bands.
+    :return: Pandas DataFrame with buy, sell signals.
+    """
+    # Calculate the moving average and standard deviation
+    rolling_mean = prices.rolling(window=window).mean()
+    rolling_std = prices.rolling(window=window).std()
+    
+    # Calculate upper and lower Bollinger Bands
+    upper_band = rolling_mean + (rolling_std * num_std_dev)
+    lower_band = rolling_mean - (rolling_std * num_std_dev)
+    
+    # Create signals
+    signals = pd.DataFrame(index=prices.index)
+    signals['prices'] = prices
+    signals['buy'] = np.where(prices < lower_band, 1, 0)  # Buy signal
+    signals['sell'] = np.where(prices > upper_band, 1, 0)  # Sell signal
+    
+    return signals
